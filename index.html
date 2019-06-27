@@ -12,42 +12,42 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="container-fluid mx-0 mt-0 pt-0">
       <div class="row">
+        <div class="col-md-4 col-sm-5 px-3" id="hiddenNavbar">
+          <h1 class="h2 pt-3 border-bottom d-none">JSX Documentation</h1>
+        </div>
         <div class="col-md-4 col-sm-5 px-0 position-fixed">
-          <nav class="nav nav-fill flex-column">
+          <nav class="nav nav-fill flex-column" id="visibleNavbar">
             <h1 class="h2 pt-3 px-3 border-bottom">JSX Documentation</h1>
-            <a class="nav-link text-dark active border-bottom" href="#"
+            <a class="nav-link px-3 text-dark active border-bottom" href="#why"
               >Why JSX?</a
             >
-            <a class="nav-link px-3 text-dark border-bottom" href="#"
+            <a class="nav-link px-3 text-dark border-bottom" href="#embedding"
               >Embedding Expressions in JSX</a
             >
-            <a class="nav-link px-3 text-dark border-bottom" href="#"
+            <a class="nav-link px-3 text-dark border-bottom" href="#expression"
               >JSX is an Expression Too</a
             >
-            <a class="nav-link px-3 text-dark border-bottom" href="#"
+            <a class="nav-link px-3 text-dark border-bottom" href="#attributes"
               >Specifying Attributes with JSX</a
             >
-            <a class="nav-link px-3 text-dark border-bottom" href="#"
+            <a class="nav-link px-3 text-dark border-bottom" href="#children"
               >Specifying Children with JSX</a
             >
-            <a class="nav-link px-3 text-dark border-bottom" href="#"
+            <a class="nav-link px-3 text-dark border-bottom" href="#injectionAttacks"
               >JSX Prevents Injection Attacks</a
             >
-            <a class="nav-link px-3 text-dark border-bottom" href="#"
+            <a class="nav-link px-3 text-dark border-bottom" href="#objects"
               >JSX Represents Objects</a
             >
           </nav>
         </div>
-        <div class="col-md-4 col-sm-5 px-3">
-          <h1 class="h2 pt-3 border-bottom d-none">JSX Documentation</h1>
-        </div>
         <div class="col-md-8 col-sm-7 align-self-end px-3 py-3 border-left">
-          <div class="jumbotron bg-white">
+          <div class="jumbotron bg-light rounded mb-0">
             <h1 class="display-4">Introducing JSX</h1>
             <p class="lead">
               Consider this variable declaration:
@@ -55,114 +55,178 @@
             <p class="bg-dark rounded mx-n3 p-3">
               <code>const element = &lt;Hello, world!&gt;</code>
             </p>
+            <p>This funny tag syntax is neither a string nor HTML.</p>
+          </div>
+          <div class="mx-4">
             <p>
-              This funny tag syntax is neither a string nor HTML. It is called
-              JSX, and it is a syntax extension to JavaScript. We recommend
-              using it with React to describe what the UI should look like. JSX
-              may remind you of a template language, but it comes with the full
-              power of JavaScript. JSX produces React “elements”. We will
-              explore rendering them to the DOM in the next section. Below, you
-              can find the basics of JSX necessary to get you started.
+              It is called JSX, and it is a syntax extension to JavaScript. We
+              recommend using it with React to describe what the UI should look
+              like. JSX may remind you of a template language, but it comes with
+              the full power of JavaScript.
+            </p>
+            <p>
+              JSX produces React “elements”. We will explore rendering them to
+              the DOM in the next section. Below, you can find the basics of JSX
+              necessary to get you started.
+            </p>
+            <h2 id="why">Why JSX?</h2>
+            <p>
+              React embraces the fact that rendering logic is inherently coupled
+              with other UI logic: how events are handled, how the state changes
+              over time, and how the data is prepared for display.
+            </p>
+            <p>
+              Instead of artificially separating technologies by putting markup
+              and logic in separate files, React separates concerns with loosely
+              coupled units called “components” that contain both. We will come
+              back to components in a further section, but if you’re not yet
+              comfortable putting markup in JS, this talk might convince you
+              otherwise.
+            </p>
+            <p>
+              React doesn’t require using JSX, but most people find it helpful
+              as a visual aid when working with UI inside the JavaScript code.
+              It also allows React to show more useful error and warning
+              messages.
+            </p>
+            <p>With that out of the way, let’s get started!</p>
+            <h2 id="embedding">Embedding Expressions in JSX</h2>
+            <p>
+              In the example below, we declare a variable called name and then
+              use it inside JSX by wrapping it in curly braces:
+            </p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+                >const name = 'Josh Perez'; 
+const element = &lt;Hello, {world}&gt;
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);</code
+              ></pre>
+            <p>
+              You can put any valid JavaScript expression inside the curly
+              braces in JSX. For example, 2 + 2, user.firstName, or
+              formatName(user) are all valid JavaScript expressions.
+            </p>
+            <p>
+              In the example below, we embed the result of calling a JavaScript
+              function, formatName(user), into an &lt;h1&gt; element.
+            </p>
+            <p>
+              We split JSX over multiple lines for readability. While it isn’t
+              required, when doing this, we also recommend wrapping it in
+              parentheses to avoid the pitfalls of automatic semicolon
+              insertion.
+            </p>
+            <h2 id="expression">JSX is an Expression Too</h2>
+            <p>
+              After compilation, JSX expressions become regular JavaScript
+              function calls and evaluate to JavaScript objects.
+            </p>
+            <p>
+              This means that you can use JSX inside of if statements and for
+              loops, assign it to variables, accept it as arguments, and return
+              it from functions:
+            </p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >function getGreeting(user) {
+  if (user) {
+    return &lt;h1&gt;Hello, {formatName(user)}!&lt;/h1&gt;;
+  }
+  return &lt;h1&gt;Hello, Stranger.&lt;/h1&gt;;
+}</code
+            ></pre>
+            <h2 id="attributes">Specifying Attributes with JSX</h2>
+            <p>You may use quotes to specify string literals as attributes:</p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >const element = &lt;div tabIndex="0"&gt;&lt;/div&gt;;</code
+            ></pre>
+            <p>
+              You may also use curly braces to embed a JavaScript expression in
+              an attribute:
+            </p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >const element = &lt;img src={user.avatarUrl}&gt;&lt;/img&gt;;</code
+            ></pre>
+            <p>
+              Don’t put quotes around curly braces when embedding a JavaScript
+              expression in an attribute. You should either use quotes (for
+              string values) or curly braces (for expressions), but not both in
+              the same attribute.
+            </p>
+            <p class="alert alert-warning mx-n3 p-3">
+              <strong>Warning: </strong><br>Since JSX is closer to JavaScript than to HTML, React DOM
+              uses camelCase property naming convention instead of HTML
+              attribute names. For example, class becomes className in JSX, and
+              tabindex becomes tabIndex.
+            </p>
+            <h2 id="children">Specifying Children with JSX</h2>
+            <p>
+              If a tag is empty, you may close it immediately with />, like XML:
+            </p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >const element = &lt;img src={user.avatarUrl} /&gt;;</code
+            ></pre>
+            <p>JSX tags may contain children:</p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >const element = (
+  &lt;div&gt;
+    &lt;h1&gt;Hello!&lt;/h1&gt;
+    &lt;h2&gt;Good to see you here.&lt;/h2&gt;
+  &lt;/div&gt;
+);</code
+            ></pre>
+            <h2 id="injectionAttacks">JSX Prevents Injection Attacks</h2>
+            <p>It is safe to embed user input in JSX:</p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >const title = response.potentiallyMaliciousInput;
+// This is safe:
+const element = &lt;h1&gt;{title}&lt;/h1&gt;;</code
+            ></pre>
+            <p>
+              By default, React DOM escapes any values embedded in JSX before
+              rendering them. Thus it ensures that you can never inject anything
+              that’s not explicitly written in your application. Everything is
+              converted to a string before being rendered. This helps prevent
+              XSS (cross-site-scripting) attacks.
+            </p>
+            <h2 id="objects">JSX Represents Objects</h2>
+            <p>Babel compiles JSX down to React.createElement() calls.</p>
+            <p>These two examples are identical:</p>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >const element = (
+  &lt;h1 className="greeting"&gt;
+    Hello!
+  &lt;/h1&gt;
+);</code
+            ></pre>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >const element = React.createElement(
+  'h1',
+  {className: 'greeting'},
+  'Hello, world!'
+);</code
+            ></pre>
+            <p>
+              React.createElement() performs a few checks to help you write
+              bug-free code but essentially it creates an object like this:
+            </p>
+            </pre>
+            <pre class="bg-dark text-warning rounded mx-n3 p-3"><code
+              >// Note: this structure is simplified
+const element = {
+  type: 'h1',
+  props: {
+    className: 'greeting',
+    children: 'Hello, world!'
+  }
+};</code
+            ></pre>
+            <p class="alert alert-warning mx-n3 p-3">
+              <strong>Tip: </strong><br>We recommend using the “Babel” language definition for your editor of choice so that both ES6 and JSX code is properly highlighted. This website uses the Oceanic Next color scheme which is compatible with it.
             </p>
           </div>
-          <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. In, magnam
-            vitae facere fugit debitis tempore autem laudantium illum aut ex
-            esse accusamus sapiente dolorem repellat culpa exercitationem.
-            Deleniti, unde aperiam! Lorem, ipsum dolor sit amet consectetur
-            adipisicing elit. In, magnam vitae facere fugit debitis tempore
-            autem laudantium illum aut ex esse accusamus sapiente dolorem
-            repellat culpa exercitationem. Deleniti, unde aperiam! Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. In, magnam vitae facere
-            fugit debitis tempore autem laudantium illum aut ex esse accusamus
-            sapiente dolorem repellat culpa exercitationem. Deleniti, unde
-            aperiam! Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            In, magnam vitae facere fugit debitis tempore autem laudantium illum
-            aut ex esse accusamus sapiente dolorem repellat culpa
-            exercitationem. Deleniti, unde aperiam! Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. In, magnam vitae facere fugit debitis
-            tempore autem laudantium illum aut ex esse accusamus sapiente
-            dolorem repellat culpa exercitationem. Deleniti, unde aperiam!
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. In, magnam
-            vitae facere fugit debitis tempore autem laudantium illum aut ex
-            esse accusamus sapiente dolorem repellat culpa exercitationem.
-            Deleniti, unde aperiam! Lorem, ipsum dolor sit amet consectetur
-            adipisicing elit. In, magnam vitae facere fugit debitis tempore
-            autem laudantium illum aut ex esse accusamus sapiente dolorem
-            repellat culpa exercitationem. Deleniti, unde aperiam! Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. In, magnam vitae facere
-            fugit debitis tempore autem laudantium illum aut ex esse accusamus
-            sapiente dolorem repellat culpa exercitationem. Deleniti, unde
-            aperiam! Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            In, magnam vitae facere fugit debitis tempore autem laudantium illum
-            aut ex esse accusamus sapiente dolorem repellat culpa
-            exercitationem. Deleniti, unde aperiam! Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. In, magnam vitae facere fugit debitis
-            tempore autem laudantium illum aut ex esse accusamus sapiente
-            dolorem repellat culpa exercitationem. Deleniti, unde aperiam!
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. In, magnam
-            vitae facere fugit debitis tempore autem laudantium illum aut ex
-            esse accusamus sapiente dolorem repellat culpa exercitationem.
-            Deleniti, unde aperiam! Lorem, ipsum dolor sit amet consectetur
-            adipisicing elit. In, magnam vitae facere fugit debitis tempore
-            autem laudantium illum aut ex esse accusamus sapiente dolorem
-            repellat culpa exercitationem. Deleniti, unde aperiam! Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. In, magnam vitae facere
-            fugit debitis tempore autem laudantium illum aut ex esse accusamus
-            sapiente dolorem repellat culpa exercitationem. Deleniti, unde
-            aperiam! Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            In, magnam vitae facere fugit debitis tempore autem laudantium illum
-            aut ex esse accusamus sapiente dolorem repellat culpa
-            exercitationem. Deleniti, unde aperiam! Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. In, magnam vitae facere fugit debitis
-            tempore autem laudantium illum aut ex esse accusamus sapiente
-            dolorem repellat culpa exercitationem. Deleniti, unde aperiam!
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. In, magnam
-            vitae facere fugit debitis tempore autem laudantium illum aut ex
-            esse accusamus sapiente dolorem repellat culpa exercitationem.
-            Deleniti, unde aperiam! Lorem, ipsum dolor sit amet consectetur
-            adipisicing elit. In, magnam vitae facere fugit debitis tempore
-            autem laudantium illum aut ex esse accusamus sapiente dolorem
-            repellat culpa exercitationem. Deleniti, unde aperiam! Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. In, magnam vitae facere
-            fugit debitis tempore autem laudantium illum aut ex esse accusamus
-            sapiente dolorem repellat culpa exercitationem. Deleniti, unde
-            aperiam! Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            In, magnam vitae facere fugit debitis tempore autem laudantium illum
-            aut ex esse accusamus sapiente dolorem repellat culpa
-            exercitationem. Deleniti, unde aperiam! Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. In, magnam vitae facere fugit debitis
-            tempore autem laudantium illum aut ex esse accusamus sapiente
-            dolorem repellat culpa exercitationem. Deleniti, unde aperiam!
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. In, magnam
-            vitae facere fugit debitis tempore autem laudantium illum aut ex
-            esse accusamus sapiente dolorem repellat culpa exercitationem.
-            Deleniti, unde aperiam! Lorem, ipsum dolor sit amet consectetur
-            adipisicing elit. In, magnam vitae facere fugit debitis tempore
-            autem laudantium illum aut ex esse accusamus sapiente dolorem
-            repellat culpa exercitationem. Deleniti, unde aperiam! Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. In, magnam vitae facere
-            fugit debitis tempore autem laudantium illum aut ex esse accusamus
-            sapiente dolorem repellat culpa exercitationem. Deleniti, unde
-            aperiam! Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            In, magnam vitae facere fugit debitis tempore autem laudantium illum
-            aut ex esse accusamus sapiente dolorem repellat culpa
-            exercitationem. Deleniti, unde aperiam! Lorem, ipsum dolor sit amet
-            consectetur adipisicing elit. In, magnam vitae facere fugit debitis
-            tempore autem laudantium illum aut ex esse accusamus sapiente
-            dolorem repellat culpa exercitationem. Deleniti, unde aperiam!
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. In, magnam
-            vitae facere fugit debitis tempore autem laudantium illum aut ex
-            esse accusamus sapiente dolorem repellat culpa exercitationem.
-            Deleniti, unde aperiam! Lorem, ipsum dolor sit amet consectetur
-            adipisicing elit. In, magnam vitae facere fugit debitis tempore
-            autem laudantium illum aut ex esse accusamus sapiente dolorem
-            repellat culpa exercitationem. Deleniti, unde aperiam! Lorem, ipsum
-            dolor sit amet consectetur adipisicing elit. In, magnam vitae facere
-            fugit debitis tempore autem laudantium illum aut ex esse accusamus
-            sapiente dolorem repellat culpa exercitationem. Deleniti, unde
-            aperiam!
-          </p>
         </div>
       </div>
     </main>
